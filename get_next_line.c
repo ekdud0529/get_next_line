@@ -24,21 +24,22 @@ static void	*get_str(int fd, char *newline)
 	while (!ft_strchr(buf, '\n'))
 	{
 		read_check = read(fd, *buf, BUFFER_SIZE);
-		if(read_check <= 0)
-			break;
+		if (read_check <= 0)
+			break ;
 		buf[read_check] = '\0';
 		tmp = newline;
 		newline = ft_strjoin(newline, buf);
 		free(tmp);
 	}
 	free(buf);
-	buf = '\0';
+	buf = 0;
+	tmp = 0;
 }
 
 static int	*get_line(char *str_save, char *line)
 {
 	int	index;
-	
+
 	index = 0;
 	while (*(str_save + index) != '\n')
 	{
@@ -48,13 +49,24 @@ static int	*get_line(char *str_save, char *line)
 	return (index);
 }
 
-static char	*get_remain(char *save, int index)
+static char	*get_remain(int index, char *save)
 {
+	int		len;
+	int		ind;
+	char	*remain;
+
+	len = ft_strlen(save + index);
+	remain = (char *)malloc(sizeof(char) * (len + 1));
+	ind = 0;
 	while (*(save + index))
 	{
-		*save = *(save + index);
+		*(remain + ind) = *(save + index);
 		index++;
+		ind++;
 	}
+	*(remain + ind) = '\0';
+	free(save);
+	return (remain);
 }
 
 char	*get_next_line(int fd)
