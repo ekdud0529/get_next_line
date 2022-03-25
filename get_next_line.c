@@ -23,7 +23,7 @@ static void	*get_str(int fd, char *newline)
 		return (0);
 	while (!ft_strchr(buf, '\n'))
 	{
-		read_check = read(fd, *buf, BUFFER_SIZE);
+		read_check = read(fd, buf, BUFFER_SIZE);
 		if (read_check <= 0)
 			break ;
 		buf[read_check] = '\0';
