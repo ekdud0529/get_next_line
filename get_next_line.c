@@ -43,7 +43,7 @@ static int	get_line(char *str_save, char *line)
 	index = 0;
 	while (*(str_save + index) != '\n')
 	{
-		*line = *str_save;
+		*(line + index) = *(str_save + index);
 		index++;
 	}
 	return (index);
