@@ -74,7 +74,9 @@ char	*get_next_line(int fd)
 	static char	*str_save;
 	char		*line;
 	int			remain;
-
+	
+	if((fd < 0) || (BUFFER_SIZE < 1))
+		return (0);
 	line = 0;
 	get_str(fd, str_save);
 	if (ft_strchr(str_save, '\n'))
