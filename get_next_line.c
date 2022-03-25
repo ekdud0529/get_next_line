@@ -18,7 +18,7 @@ static void	get_str(int fd, char *newline)
 	char	*tmp;
 	int		read_check;
 
-	buf = malloc(BUFFER_SIZE + 1);
+	buf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buf)
 		return ;
 	while (!ft_strchr(buf, '\n'))
@@ -56,7 +56,7 @@ static char	*get_remain(int index, char *save)
 	char	*remain;
 
 	len = ft_strlen(save + index);
-	remain = malloc(len + 1);
+	remain = (char *)malloc(sizeof(char) * (len + 1));
 	ind = 0;
 	while (*(save + index))
 	{
