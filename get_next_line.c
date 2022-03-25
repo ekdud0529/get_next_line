@@ -76,7 +76,7 @@ char	*get_next_line(int fd)
 	int			remain;
 
 	get_str(fd, str_save);
-	if (ft_strchar(str_save, '\n'))
+	if (ft_strchr(str_save, '\n'))
 		remain = get_line(str_save, line);
 	else
 		return (0);
