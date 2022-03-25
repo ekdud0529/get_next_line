@@ -20,7 +20,7 @@ static void	get_str(int fd, char *newline)
 
 	buf = malloc(BUFFER_SIZE + 1);
 	if (!buf)
-		return (0);
+		return ;
 	while (!ft_strchr(buf, '\n'))
 	{
 		read_check = read(fd, buf, BUFFER_SIZE);
