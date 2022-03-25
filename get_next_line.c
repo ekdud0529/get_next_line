@@ -12,7 +12,7 @@
 
 #include "get_next_line.h"
 
-static void	*get_str(int fd, char *newline)
+static void	get_str(int fd, char *newline)
 {
 	char	*buf;
 	char	*tmp;
