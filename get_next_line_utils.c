@@ -30,33 +30,24 @@ char	*ft_strchr(const char *str, int c)
 	return (0);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strconcat(char *newstr, char *buf, size_t len)
 {
-	size_t	s1_len;
-	size_t	s2_len;
-	size_t	index;
-	char	*newstr;
+	char	*catstr;
 
-	s1_len = ft_strlen(s1);
-	s2_len = ft_strlen(s2);
-	newstr = (char *)malloc(sizeof(char) * (s1_len + s2_len + 1));
 	if (!newstr)
+	{
+		catstr = (char *)malloc(sizeof(char) * (len + 1));
+		if (!catstr)
+			return (0);
+		ft_strlcpy(catstr, buf, len + 1);
+		return (catstr);
+	}
+	catstr = (char *)malloc(sizeof(char) * (len + ft_strlen(newstr) + 1));
+	if (!catstr)
 		return (0);
-	index = 0;
-	while (*s1)
-	{
-		newstr[index] = *s1;
-		s1++;
-		index++;
-	}
-	while (*s2)
-	{
-		newstr[index] = *s2;
-		s2++;
-		index++;
-	}
-	newstr[index] = '\0';
-	return (newstr);
+	ft_strlcpy(catstr, newstr, ft_strlen(newstr) + 1);
+	ft_strlcpy(catstr + ft_strlen(newstr), buf, len + 1);
+	return (catstr);
 }
 
 size_t	ft_strlen(const char *str)
@@ -70,4 +61,22 @@ size_t	ft_strlen(const char *str)
 		str++;
 	}
 	return (cnt);
+}
+
+size_t	ft_strlcpy(char *dest, const char *src, size_t size)
+{
+	size_t			len;
+	size_t			index;
+
+	len = ft_strlen(src);
+	if (size == 0)
+		return (len);
+	index = 0;
+	while ((index + 1 < size) && *(src + index))
+	{
+		*(dest + index) = *(src + index);
+		index++;
+	}
+	*(dest + index) = '\0';
+	return (len);
 }
