@@ -22,6 +22,7 @@ static char	*get_remain(size_t index, char **str_save)
 	if (!remain)
 		return (0);
 	ft_strlcpy(remain, *str_save + index, len + 1);
+	free(*str_save);
 	return (remain);
 }
 
