@@ -12,64 +12,65 @@
 
 #include "get_next_line.h"
 
-static char	*get_remain(size_t index, char **str_save)
+static char	*get_remain(int index, char **backup)
 {
-	size_t	len;
 	char	*remain;
+	int		len;
 
-	len = ft_strlen(*str_save + index);
-	remain = (char *)malloc(sizeof(char) * (len + 1));
+	len = ft_strlen(*backup + index);
+	remain = (char *)malloc(sizeof(char) + (len + 1));
 	if (!remain)
 		return (0);
-	ft_strlcpy(remain, *str_save + index, len + 1);
-	free(*str_save);
+	ft_strlcpy(remain, *backup + index, len + 1);
+	free(*backup);
 	return (remain);
 }
 
-static void	get_str(int fd, char **newstr)
+static char	*get_line(int fd, char **newstr)
 {
-	char	*buf;
-	char	*tmp;
-	size_t	read_check;
+	char		*buf;
+	int			read_check;
 
 	buf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buf)
-		return ;
-	buf[0] = '\0';
+		return (0);
 	while (!ft_strchr(*newstr, '\n'))
 	{
 		read_check = read(fd, buf, BUFFER_SIZE);
 		if (read_check <= 0)
 			break ;
 		buf[read_check] = '\0';
-		tmp = *newstr;
-		*newstr = ft_strconcat(*newstr, buf, read_check);
-		free(tmp);
+		*newstr = ft_linecat(*newstr, buf, read_check);
 	}
 	free(buf);
 	buf = 0;
-	tmp = 0;
+	if ((read_check < 0) || (**newstr == '\0'))
+		return (0);
+	return (*newstr);
 }
 
 char	*get_next_line(int fd)
 {
-	static char	*str_save;
+	static char	*backup;
 	char		*line;
-	size_t		remain;
-
-	get_str(fd, &str_save);
-	if (ft_strchr(str_save, '\n'))
+	int			str_len;
+	
+	backup = get_line(fd, &backup);
+	if (!backup)
 	{
-		remain = ft_strchr(str_save, '\n') - str_save;
-		line = (char *)malloc(sizeof(char) * (remain + 1));
-		if (!line)
-			return (0);
-		ft_strlcpy(line, str_save, remain + 1);
-	}
-	else
+		free(backup);
 		return (0);
-	str_save = get_remain(remain + 1, &str_save);
-	if (!str_save)
+	}
+	if (ft_strchr(backup, '\n'))
+		str_len = ft_strchr(backup, '\n') - backup + 1;
+	else
+		str_len = ft_strchr(backup, '\0') - backup;
+	line = (char *)malloc(sizeof(char) * (str_len + 1));
+	if (!line)
+		return (0);
+	ft_strlcpy(line, backup, str_len + 1);
+	backup = get_remain(str_len, &backup);
+	if (!backup)
 		return (0);
 	return (line);
 }

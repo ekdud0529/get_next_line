@@ -32,7 +32,7 @@ char	*ft_strchr(const char *str, int c)
 	return (0);
 }
 
-char	*ft_strconcat(char *newstr, char *buf, size_t len)
+char	*ft_linecat(char *newstr, char *buf, size_t len)
 {
 	char	*catstr;
 
@@ -49,6 +49,7 @@ char	*ft_strconcat(char *newstr, char *buf, size_t len)
 		return (0);
 	ft_strlcpy(catstr, newstr, ft_strlen(newstr) + 1);
 	ft_strlcpy(catstr + ft_strlen(newstr), buf, len + 1);
+	free(newstr);
 	return (catstr);
 }
 
