@@ -26,7 +26,18 @@ static char	*get_remain(int index, char **backup)
 	return (remain);
 }
 
-static char	*get_line(int fd, char **newstr)
+static char	*get_line(char **backup, int str_len)
+{
+	char	*line;
+
+	line = (char *)malloc(sizeof(char) * (str_len + 1));
+	if (!line)
+		return (0);
+	ft_strlcpy(line, *backup, str_len + 1);
+	return (line);
+}
+
+static char *get_str(int fd, char **newstr)
 {
 	char		*buf;
 	int			read_check;
@@ -55,7 +66,7 @@ char	*get_next_line(int fd)
 	char		*line;
 	int			str_len;
 	
-	backup = get_line(fd, &backup);
+	backup = get_str(fd, &backup);
 	if (!backup)
 	{
 		free(backup);
@@ -65,10 +76,7 @@ char	*get_next_line(int fd)
 		str_len = ft_strchr(backup, '\n') - backup + 1;
 	else
 		str_len = ft_strchr(backup, '\0') - backup;
-	line = (char *)malloc(sizeof(char) * (str_len + 1));
-	if (!line)
-		return (0);
-	ft_strlcpy(line, backup, str_len + 1);
+	line = get_line(&backup, str_len);
 	backup = get_remain(str_len, &backup);
 	if (!backup)
 		return (0);
