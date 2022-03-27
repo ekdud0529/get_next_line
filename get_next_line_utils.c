@@ -17,6 +17,8 @@ char	*ft_strchr(const char *str, int c)
 	int	index;
 
 	index = 0;
+	if (!str)
+		return (0);
 	while (*(str + index))
 	{
 		if (*(str + index) == (char)c)

@@ -19,6 +19,8 @@ static char	*get_remain(size_t index, char **str_save)
 
 	len = ft_strlen(*str_save + index);
 	remain = (char *)malloc(sizeof(char) * (len + 1));
+	if (!remain)
+		return (0);
 	ft_strlcpy(remain, *str_save + index, len + 1);
 	return (remain);
 }
@@ -33,7 +35,7 @@ static void	get_str(int fd, char **newstr)
 	if (!buf)
 		return ;
 	buf[0] = '\0';
-	while (!ft_strchr(buf, '\n'))
+	while (!ft_strchr(*newstr, '\n'))
 	{
 		read_check = read(fd, buf, BUFFER_SIZE);
 		if (read_check <= 0)
@@ -59,6 +61,8 @@ char	*get_next_line(int fd)
 	{
 		remain = ft_strchr(str_save, '\n') - str_save;
 		line = (char *)malloc(sizeof(char) * (remain + 1));
+		if (!line)
+			return (0);
 		ft_strlcpy(line, str_save, remain + 1);
 	}
 	else
