@@ -55,7 +55,7 @@ static char *get_str(int fd, char **newstr)
 	}
 	free(buf);
 	buf = 0;
-	if ((read_check < 0) || (**newstr == '\0'))
+	if ((read_check < 0) || !(*newstr) || (**newstr == '\0'))
 		return (0);
 	return (*newstr);
 }
@@ -68,10 +68,7 @@ char	*get_next_line(int fd)
 	
 	backup = get_str(fd, &backup);
 	if (!backup)
-	{
-		free(backup);
 		return (0);
-	}
 	if (ft_strchr(backup, '\n'))
 		str_len = ft_strchr(backup, '\n') - backup + 1;
 	else
