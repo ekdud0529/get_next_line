@@ -67,9 +67,9 @@ char	*get_next_line(int fd)
 		ft_strlcpy(line, str_save, remain + 1);
 	}
 	else
-	{
 		return (0);
-	}
 	str_save = get_remain(remain + 1, &str_save);
+	if (!str_save)
+		return (0);
 	return (line);
 }
