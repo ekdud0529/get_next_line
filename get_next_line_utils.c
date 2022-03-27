@@ -36,6 +36,8 @@ char	*ft_linecat(char *newstr, char *buf, size_t len)
 {
 	char	*catstr;
 
+	if (len == 0)
+		return (newstr);
 	if (!newstr)
 	{
 		catstr = (char *)malloc(sizeof(char) * (len + 1));
