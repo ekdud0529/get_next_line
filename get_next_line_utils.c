@@ -77,11 +77,11 @@ size_t	ft_strlcpy(char *dest, const char *src, size_t size)
 	if (size == 0)
 		return (len);
 	index = 0;
-	while ((index + 1 < size) && *(src + index))
+	while ((index + 1 < size) && src[index])
 	{
-		*(dest + index) = *(src + index);
+		dest[index] = src[index];
 		index++;
 	}
-	*(dest + index) = '\0';
+	dest[index] = '\0';
 	return (len);
 }

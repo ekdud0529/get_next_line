@@ -17,8 +17,10 @@ static char	*get_remain(int index, char **backup)
 	char	*remain;
 	int		len;
 
+	if (**backup == '\0')
+		return (0);
 	len = ft_strlen(*backup + index);
-	remain = (char *)malloc(sizeof(char) + (len + 1));
+	remain = (char *)malloc(sizeof(char) * (len + 1));
 	if (!remain)
 		return (0);
 	ft_strlcpy(remain, *backup + index, len + 1);
@@ -30,7 +32,7 @@ static char	*get_line(char **backup, int str_len)
 {
 	char	*line;
 
-	if (**backup == '\0')
+	if (**backup == '\0' || str_len == 0)
 		return (0);
 	line = (char *)malloc(sizeof(char) * (str_len + 1));
 	if (!line)
@@ -39,7 +41,7 @@ static char	*get_line(char **backup, int str_len)
 	return (line);
 }
 
-static char *get_str(int fd, char **newstr)
+static char	*get_str(int fd, char **newstr)
 {
 	char		*buf;
 	int			read_check;
@@ -48,7 +50,7 @@ static char *get_str(int fd, char **newstr)
 	if (!buf)
 		return (0);
 	read_check = 1;
-	while (!ft_strchr(*newstr, '\n') && (read_check != 0))
+	while (!ft_strchr(*newstr, '\n') && (read_check > 0))
 	{
 		read_check = read(fd, buf, BUFFER_SIZE);
 		if (read_check < 0)
@@ -56,9 +58,8 @@ static char *get_str(int fd, char **newstr)
 		buf[read_check] = '\0';
 		*newstr = ft_linecat(*newstr, buf, read_check);
 	}
+	free(buf);
 	buf = 0;
-	if (!(*newstr))
-		return (0);
 	return (*newstr);
 }
 
@@ -66,8 +67,7 @@ char	*get_next_line(int fd)
 {
 	static char	*backup;
 	char		*line;
-	int			str_len;
-	
+
 	backup = get_str(fd, &backup);
 	if (!backup)
 	{
@@ -75,13 +75,15 @@ char	*get_next_line(int fd)
 		return (0);
 	}
 	if (ft_strchr(backup, '\n'))
-		str_len = ft_strchr(backup, '\n') - backup + 1;
+		line = get_line(&backup, ft_strchr(backup, '\n') - backup + 1);
 	else
-		str_len = ft_strchr(backup, '\0') - backup;
-	line = get_line(&backup, str_len);
+		line = get_line(&backup, ft_strchr(backup, '\0') - backup);
 	if (!line)
+	{
+		free(backup);
 		return (0);
-	backup = get_remain(str_len, &backup);
+	}
+	backup = get_remain(ft_strlen(line), &backup);
 	if (!backup)
 		return (0);
 	return (line);
