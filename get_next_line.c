@@ -68,6 +68,8 @@ char	*get_next_line(int fd)
 	static char	*backup;
 	char		*line;
 
+	if (fd < 0)
+		return (0);
 	backup = get_str(fd, &backup);
 	if (!backup)
 	{
