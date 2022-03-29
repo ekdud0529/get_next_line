@@ -17,8 +17,6 @@ static char	*get_remain(int index, char **backup)
 	char	*remain;
 	int		len;
 
-	if (**backup == '\0')
-		return (0);
 	len = ft_strlen(*backup + index);
 	remain = (char *)malloc(sizeof(char) * (len + 1));
 	if (!remain)
