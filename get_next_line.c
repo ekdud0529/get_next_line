@@ -12,34 +12,34 @@
 
 #include "get_next_line.h"
 
-static char	*get_remain(int index, char **backup)
+static char	*get_remain(int index, char *backup)
 {
 	char	*remain;
 	int		len;
 
-	len = ft_strlen(*backup + index);
+	len = ft_strlen(backup + index);
 	remain = (char *)malloc(sizeof(char) * (len + 1));
 	if (!remain)
 		return (0);
-	ft_strlcpy(remain, *backup + index, len + 1);
-	free(*backup);
+	ft_strlcpy(remain, backup + index, len + 1);
+	free(backup);
 	return (remain);
 }
 
-static char	*get_line(char **backup, int str_len)
+static char	*get_line(char *backup, int str_len)
 {
 	char	*line;
 
-	if (**backup == '\0' || str_len == 0)
+	if (*backup == '\0' || str_len == 0)
 		return (0);
 	line = (char *)malloc(sizeof(char) * (str_len + 1));
 	if (!line)
 		return (0);
-	ft_strlcpy(line, *backup, str_len + 1);
+	ft_strlcpy(line, backup, str_len + 1);
 	return (line);
 }
 
-static char	*get_str(int fd, char **newstr)
+static char	*get_str(int fd, char *newstr)
 {
 	char		*buf;
 	int			read_check;
@@ -48,17 +48,20 @@ static char	*get_str(int fd, char **newstr)
 	if (!buf)
 		return (0);
 	read_check = 1;
-	while (!ft_strchr(*newstr, '\n') && (read_check > 0))
+	while (!ft_strchr(newstr, '\n') && (read_check > 0))
 	{
 		read_check = read(fd, buf, BUFFER_SIZE);
 		if (read_check < 0)
+		{
+			free(buf);
 			return (0);
+		}
 		buf[read_check] = '\0';
-		*newstr = ft_linecat(*newstr, buf, read_check);
+		newstr = ft_linecat(newstr, buf, read_check);
 	}
 	free(buf);
 	buf = 0;
-	return (*newstr);
+	return (newstr);
 }
 
 char	*get_next_line(int fd)
@@ -68,16 +71,16 @@ char	*get_next_line(int fd)
 
 	if (fd < 0)
 		return (0);
-	backup = get_str(fd, &backup);
+	backup = get_str(fd, backup);
 	if (!backup)
 	{
 		free(backup);
 		return (0);
 	}
 	if (ft_strchr(backup, '\n'))
-		line = get_line(&backup, ft_strchr(backup, '\n') - backup + 1);
+		line = get_line(backup, ft_strchr(backup, '\n') - backup + 1);
 	else
-		line = get_line(&backup, ft_strchr(backup, '\0') - backup);
+		line = get_line(backup, ft_strchr(backup, '\0') - backup);
 	if (!line)
 	{
 		free(backup);
@@ -85,6 +88,9 @@ char	*get_next_line(int fd)
 	}
 	backup = get_remain(ft_strlen(line), &backup);
 	if (!backup)
+	{
+		free(line);
 		return (0);
+	}
 	return (line);
 }
