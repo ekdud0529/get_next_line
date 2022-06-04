@@ -99,7 +99,7 @@ char	*get_next_line(int fd)
 	line = get_line(node -> data);
 	if (!line)
 	{
-		ft_delNode(node);
+		ft_delnode(node);
 		return (0);
 	}
 	node -> data = get_remain(ft_strlen(line), node -> data);
