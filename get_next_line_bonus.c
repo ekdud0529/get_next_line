@@ -75,6 +75,8 @@ static char	*get_line(char *data)
 		len = ft_strchr(data, '\n') - data + 1;
 	else
 		len = ft_strchr(data, '\0') - data;
+	if (*data == '\0' || len == 0)
+		return (0);
 	line = (char *)malloc(sizeof(char) * (len + 1));
 	if (!line)
 		return (0);

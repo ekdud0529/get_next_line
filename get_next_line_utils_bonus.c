@@ -102,9 +102,9 @@ t_list	*ft_setnode(t_list *head, int fd)
 void	ft_delnode(t_list *node)
 {
 	free(node -> data);
-	node -> pre -> next = node -> next;
 	if (node -> next)
 		node -> next -> pre = node -> pre;
+	node -> pre -> next = node -> next;
 	free(node);
 	node = 0;
 }
