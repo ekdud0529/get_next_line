@@ -70,12 +70,12 @@ static char	*get_line(char *data)
 	size_t	len;
 
 	len = 0;
-	if (*backup == '\0' || str_len == 0)
-		return (0);
 	if (ft_strchr(data, '\n'))
 		len = ft_strchr(data, '\n') - data + 1;
 	else
-		len = ft_strchar(data, '\0') - data;
+		len = ft_strchr(data, '\0') - data;
+	if (*data == '\0' || len == 0)
+		return (0);
 	line = (char *)malloc(sizeof(char) * (len + 1));
 	if (!line)
 		return (0);
@@ -91,10 +91,10 @@ char	*get_next_line(int fd)
 
 	if (fd < 0)
 		return (0);
-	node = ft_setNode(&head, fd);
-	if (!node)
+	node = ft_setNode(head, fd);
+	if (node == 0)
 		return (0);
-	node -> data = get_str(fd, node -> data);
+	node->data = get_str(fd, node -> data);
 	if (!(node -> data))
 		return (0);
 	line = get_line(node -> data);
@@ -103,7 +103,7 @@ char	*get_next_line(int fd)
 		ft_delNode(node);
 		return (0);
 	}
-	node -> data = get_remain(ft_strlen(line), backup);
+	node -> data = get_remain(ft_strlen(line), node -> data);
 	if (!backup)
 	{
 		ft_delNode(node);
