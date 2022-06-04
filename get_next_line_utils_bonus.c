@@ -84,7 +84,7 @@ t_list	*ft_setNode(t_list *head, int fd)
 			return (node);
 		else node = node -> next;
 	}
-	node = (t_list)malloc(sizeof(t_list));
+	node = (t_list *)malloc(sizeof(t_list));
 	if (node == 0)
 		return (0);
 	node -> fd = fd;
