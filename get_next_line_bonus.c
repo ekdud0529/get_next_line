@@ -86,7 +86,7 @@ static char	*get_line(char *data)
 char	*get_next_line(int fd)
 {
 	static t_list	*head;
-	t_list			node;
+	t_list			*node;
 	char			*line;
 
 	if (fd < 0)
