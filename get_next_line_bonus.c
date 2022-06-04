@@ -91,7 +91,7 @@ char	*get_next_line(int fd)
 
 	if (fd < 0)
 		return (0);
-	node = ft_setNode(&head, fd);
+	node = ft_setNode(head, fd);
 	if (!node)
 		return (0);
 	node -> data = get_str(fd, node -> data);
@@ -104,7 +104,7 @@ char	*get_next_line(int fd)
 		return (0);
 	}
 	node -> data = get_remain(ft_strlen(line), node -> data);
-	if (!backup)
+	if (!(node -> data))
 	{
 		ft_delNode(node);
 		return (0);

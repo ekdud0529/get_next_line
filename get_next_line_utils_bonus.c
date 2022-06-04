@@ -75,7 +75,7 @@ size_t	ft_strlcpy(char *dest, const char *src, size_t size)
 
 t_list	*ft_setNode(t_list *head, int fd)
 {
-	t_list	node;
+	t_list	*node;
 
 	node = head -> next;
 	while (node)
