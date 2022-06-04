@@ -16,12 +16,12 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-typedef struct s_list
+typedef struct s_linkedlist
 {
-	int				fd;
-	char			*data;
-	struct s_list	*pre;
-	struct s_list	*next;
+	int					fd;
+	char				*data;
+	struct s_linkedlist	*pre;
+	struct s_linkedlist	*next;
 }	t_list;
 
 char	*get_next_line(int fd);
