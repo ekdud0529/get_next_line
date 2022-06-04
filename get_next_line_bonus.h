@@ -20,8 +20,8 @@ typedef struct s_list
 {
 	int				fd;
 	char			*data;
-	struct t_list	*pre;
-	struct t_list	*next;
+	struct s_list	*pre;
+	struct s_list	*next;
 }	t_list;
 
 char	*get_next_line(int fd);

@@ -92,7 +92,7 @@ char	*get_next_line(int fd)
 	if (fd < 0)
 		return (0);
 	node = ft_setNode(head, fd);
-	if (node == Null)
+	if (node == NULL)
 		return (0);
 	node->data = get_str(fd, node -> data);
 	if (!(node -> data))
