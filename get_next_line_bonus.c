@@ -79,7 +79,7 @@ static char	*get_line(char *data)
 	line = (char *)malloc(sizeof(char) * (len + 1));
 	if (!line)
 		return (0);
-	ft_strlcpy(line, data, str_len + 1);
+	ft_strlcpy(line, data, len + 1);
 	return (line);
 }
 
@@ -92,7 +92,7 @@ char	*get_next_line(int fd)
 	if (fd < 0)
 		return (0);
 	node = ft_setNode(head, fd);
-	if (node == 0)
+	if (node == Null)
 		return (0);
 	node->data = get_str(fd, node -> data);
 	if (!(node -> data))
