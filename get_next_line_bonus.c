@@ -1,16 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: daykim <daykim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/06 22:52:30 by daykim            #+#    #+#             */
-/*   Updated: 2022/02/06 22:52:30 by daykim           ###   ########.fr       */
+/*   Created: 2022/06/04 17:10:50 by daykim            #+#    #+#             */
+/*   Updated: 2022/06/04 17:10:50 by daykim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
+
+size_t	ft_strlen(const char *str)
+{
+	size_t	cnt;
+
+	cnt = 0;
+	while (*str)
+	{
+		cnt++;
+		str++;
+	}
+	return (cnt);
+}
 
 static char	*get_remain(int index, char *backup)
 {
@@ -24,19 +37,6 @@ static char	*get_remain(int index, char *backup)
 	ft_strlcpy(remain, backup + index, len + 1);
 	free(backup);
 	return (remain);
-}
-
-static char	*get_line(char *backup, int str_len)
-{
-	char	*line;
-
-	if (*backup == '\0' || str_len == 0)
-		return (0);
-	line = (char *)malloc(sizeof(char) * (str_len + 1));
-	if (!line)
-		return (0);
-	ft_strlcpy(line, backup, str_len + 1);
-	return (line);
 }
 
 static char	*get_str(int fd, char *newstr)
@@ -64,27 +64,50 @@ static char	*get_str(int fd, char *newstr)
 	return (newstr);
 }
 
-char	*get_next_line(int fd)
+static char	*get_line(char *data)
 {
-	static char	*backup;
-	char		*line;
+	char	*line;
+	size_t	len;
+
+	len = 0;
+	if (*backup == '\0' || str_len == 0)
+		return (0);
+	if (ft_strchr(data, '\n'))
+		len = ft_strchr(data, '\n') - data + 1;
+	else
+		len = ft_strchar(data, '\0') - data;
+	line = (char *)malloc(sizeof(char) * (len + 1));
+	if (!line)
+		return (0);
+	ft_strlcpy(line, data, str_len + 1);
+	return (line);
+}
+
+char	*get_next_line_bonus(int fd)
+{
+	static t_list	*head;
+	t_list			node;
+	char			*line;
 
 	if (fd < 0)
 		return (0);
-	backup = get_str(fd, backup);
-	if (!backup)
+	node = ft_setNode(&head, fd);
+	if (!node)
 		return (0);
-	if (ft_strchr(backup, '\n'))
-		line = get_line(backup, ft_strchr(backup, '\n') - backup + 1);
-	else
-		line = get_line(backup, ft_strchr(backup, '\0') - backup);
+	node -> data = get_str(fd, node -> data);
+	if (!(node -> data))
+		return (0);
+	line = get_line(node -> data);
 	if (!line)
 	{
-		free(backup);
+		ft_delNode(node);
 		return (0);
 	}
-	backup = get_remain(ft_strlen(line), backup);
+	node -> data = get_remain(ft_strlen(line), backup);
 	if (!backup)
+	{
+		ft_delNode(node);
 		return (0);
+	}
 	return (line);
 }
