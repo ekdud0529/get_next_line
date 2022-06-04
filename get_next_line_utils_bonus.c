@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
+#include <stdio.h>
 
 char	*ft_strchr(const char *str, int c)
 {
@@ -73,7 +74,7 @@ size_t	ft_strlcpy(char *dest, const char *src, size_t size)
 	return (len);
 }
 
-t_list	*ft_setNode(t_list *head, int fd)
+t_list	*ft_setnode(t_list *head, int fd)
 {
 	t_list	*node;
 
@@ -82,7 +83,8 @@ t_list	*ft_setNode(t_list *head, int fd)
 	{
 		if (node -> fd == fd)
 			return (node);
-		else node = node -> next;
+		else
+			node = node -> next;
 	}
 	node = (t_list *)malloc(sizeof(t_list));
 	if (node == 0)
@@ -97,7 +99,7 @@ t_list	*ft_setNode(t_list *head, int fd)
 	return (node);
 }
 
-void	ft_delNode(t_list *node)
+void	ft_delnode(t_list *node)
 {
 	free(node -> data);
 	node -> pre -> next = node -> next;

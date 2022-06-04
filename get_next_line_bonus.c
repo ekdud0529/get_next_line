@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
+#include <stdio.h>
+#include <fcntl.h>
 
 size_t	ft_strlen(const char *str)
 {
@@ -82,13 +84,13 @@ static char	*get_line(char *data)
 
 char	*get_next_line(int fd)
 {
-	static t_list	*head;
+	static t_list	head;
 	t_list			*node;
 	char			*line;
 
 	if (fd < 0)
 		return (0);
-	node = ft_setNode(head, fd);
+	node = ft_setnode(&head, fd);
 	if (!node)
 		return (0);
 	node -> data = get_str(fd, node -> data);
@@ -103,7 +105,7 @@ char	*get_next_line(int fd)
 	node -> data = get_remain(ft_strlen(line), node -> data);
 	if (!(node -> data))
 	{
-		ft_delNode(node);
+		ft_delnode(node);
 		return (0);
 	}
 	return (line);
