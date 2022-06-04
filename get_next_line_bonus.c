@@ -83,7 +83,7 @@ static char	*get_line(char *data)
 	return (line);
 }
 
-char	*get_next_line_bonus(int fd)
+char	*get_next_line(int fd)
 {
 	static t_list	*head;
 	t_list			node;

@@ -19,12 +19,12 @@
 typedef struct s_list
 {
 	int				fd;
-	static char		*data;
+	char			*data;
 	struct t_list	*pre;
 	struct t_list	*next;
 }	t_list;
 
-char	*get_next_line_bonus(int fd);
+char	*get_next_line(int fd);
 char	*ft_strchr(const char *str, int c);
 char	*ft_linecat(char *newline, char *buf, size_t len);
 size_t	ft_strlen(const char *str);
