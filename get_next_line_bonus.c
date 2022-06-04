@@ -94,7 +94,7 @@ char	*get_next_line(int fd)
 	node = ft_setNode(head, fd);
 	if (node == NULL)
 		return (0);
-	node->data = get_str(fd, node -> data);
+	node -> data = get_str(fd, node -> data);
 	if (!(node -> data))
 		return (0);
 	line = get_line(node -> data);

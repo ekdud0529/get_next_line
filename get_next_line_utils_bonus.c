@@ -73,7 +73,7 @@ size_t	ft_strlcpy(char *dest, const char *src, size_t size)
 	return (len);
 }
 
-t_list	ft_setNode(t_list *head, int fd)
+t_list	*ft_setNode(t_list *head, int fd)
 {
 	t_list	node;
 
