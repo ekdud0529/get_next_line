@@ -30,6 +30,6 @@ char	*ft_linecat(char *newline, char *buf, size_t len);
 size_t	ft_strlen(const char *str);
 size_t	ft_strlcpy(char *dest, const char *src, size_t size);
 t_list	*ft_setnode(t_list *head, int fd);
-void	ft_delnode(t_list *node);
+char	*ft_delnode(t_list *node);
 
 #endif

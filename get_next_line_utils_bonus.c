@@ -86,19 +86,19 @@ t_list	*ft_setnode(t_list *head, int fd)
 			node = node -> next;
 	}
 	node = (t_list *)malloc(sizeof(t_list));
-	if (node == 0)
+	if (!node)
 		return (0);
 	node -> fd = fd;
 	node -> data = 0;
 	node -> pre = head;
 	node -> next = head -> next;
-	head -> next = node;
 	if (head -> next)
 		head -> next -> pre = node;
+	head -> next = node;
 	return (node);
 }
 
-void	ft_delnode(t_list *node)
+char	*ft_delnode(t_list *node)
 {
 	free(node -> data);
 	if (node -> next)
@@ -106,4 +106,5 @@ void	ft_delnode(t_list *node)
 	node -> pre -> next = node -> next;
 	free(node);
 	node = 0;
+	return (0);
 }

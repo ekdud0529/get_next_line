@@ -85,6 +85,9 @@ char	*get_next_line(int fd)
 	}
 	backup = get_remain(ft_strlen(line), backup);
 	if (!backup)
+	{
+		free(line);
 		return (0);
+	}
 	return (line);
 }

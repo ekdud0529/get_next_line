@@ -95,18 +95,15 @@ char	*get_next_line(int fd)
 		return (0);
 	node -> data = get_str(fd, node -> data);
 	if (!(node -> data))
-		return (0);
+		return (ft_delnode(node));
 	line = get_line(node -> data);
 	if (!line)
-	{
-		ft_delnode(node);
-		return (0);
-	}
+		return (ft_delnode(node));
 	node -> data = get_remain(ft_strlen(line), node -> data);
 	if (!(node -> data))
 	{
-		ft_delnode(node);
-		return (0);
+		free(line);
+		return (ft_delnode(node));
 	}
 	return (line);
 }
